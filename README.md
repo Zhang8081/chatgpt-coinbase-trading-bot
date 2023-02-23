@@ -24,3 +24,81 @@ This repository contains both PROJECT and BINARY files (windows only).
 - Install the required dependencies using NuGet package manager
 - Build the project as x86 (important!)
 - Run the application and specify your Coinbase Pro API keys
+
+### Algorithm
+```
+// Calculate moving averages
+var shortMA = candleData.GetSimpleMovingAverage(50);
+var longMA = candleData.GetSimpleMovingAverage(200);
+
+// Calculate RSI
+var rsi = candleData.GetRelativeStrengthIndex(14);
+
+// Retrieve account balance
+var balance = client.GetAccountBalance("USD");
+
+// Check if short MA crossed above long MA
+if (shortMA.Last() > longMA.Last() && shortMA.ElementAt(shortMA.Count - 2) <= longMA.ElementAt(longMA.Count - 2))
+{
+    // Buy asset
+    var price = client.GetPrice(product);
+    var size = balance.Available / price;
+    var buyOrder = client.PlaceLimitOrder(OrderSide.Buy, product, size, price);
+
+    // Check for successful order placement
+    if (buyOrder != null)
+    {
+        // Save purchase price and quantity
+        var purchasePrice = price;
+        var purchaseQuantity = size;
+    }
+}
+
+// Check if RSI is above 70
+if (rsi.Last() > 70)
+{
+    // Sell asset
+    var price = client.GetPrice(product);
+    var sellOrder = client.PlaceLimitOrder(OrderSide.Sell, product, purchaseQuantity, price);
+
+    // Check for successful order placement
+    if (sellOrder != null)
+    {
+        // Calculate profit/loss
+        var pnl = (price - purchasePrice) * purchaseQuantity;
+    }
+}
+
+// Check for price drop of more than 5% and apply DCA algorithm
+if (price < purchasePrice * 0.95)
+{
+    // Calculate new purchase price and quantity
+    var newPurchasePrice = (purchasePrice * purchaseQuantity + balance.Available) / (purchaseQuantity + balance.Available / price);
+    var newPurchaseQuantity = purchaseQuantity + balance.Available / price;
+
+    // Buy more of the asset at a lower price
+    var buyOrder = client.PlaceLimitOrder(OrderSide.Buy, product, balance.Available / price, price);
+
+    // Check for successful order placement
+    if (buyOrder != null)
+    {
+        // Save new purchase price and quantity
+        purchasePrice = newPurchasePrice;
+        purchaseQuantity = newPurchaseQuantity;
+    }
+}
+
+// Check for price drop of more than 10%
+if (price < purchasePrice * 0.90)
+{
+    // Sell asset to cut losses
+    var sellOrder = client.PlaceLimitOrder(OrderSide.Sell, product, purchaseQuantity, price);
+
+    // Check for successful order placement
+    if (sellOrder != null)
+    {
+        // Calculate profit/loss
+        var pnl = (price - purchasePrice) * purchaseQuantity;
+    }
+}
+```
